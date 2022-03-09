@@ -20,8 +20,8 @@ def template(templateFileName, values):
 def run_simulation(args):
     processes = []
     # Start Gazebo
-    processes.append(subprocess.Popen("/entrypoint.sh ros2 launch gazebo_ros gazebo.launch.py gui:={} world:=worlds/empty_sky.world".format("{}".format(args.gui).lower()), shell=True))
-
+    processes.append(subprocess.Popen("/entrypoint.sh gazebo -s libgazebo_ros_init.so -s libgazebo_ros_factory.so worlds/empty_sky.world".format("{}".format(args.gui).lower()), shell=True))
+    
     time.sleep(3)
 
     tempfiles = []
