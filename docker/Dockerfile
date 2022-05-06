@@ -19,6 +19,7 @@ RUN apt-get -qq install ros-galactic-desktop python3-dev python3-opencv python3-
 
 # Install MavProxy
 RUN pip install MAVProxy pexpect
+RUN pip3 install numpy-stl scikit-image
 
 # Clear apt cache to save on space
 RUN rm -rf /var/lib/apt/lists/*
@@ -53,8 +54,10 @@ RUN cd $WORKSPACE/ardupilot_gazebo && \
     mkdir build && cd build && cmake .. && make -j4 && make install
 
 RUN mkdir $WORKSPACE/gazebo
+RUN mkdir $WORKSPACE/misc
 
 COPY ./gazebo $WORKSPACE/gazebo
+COPY ./misc $WORKSPACE/misc
 
 RUN source /opt/ros/galactic/setup.bash && \
     cd $WORKSPACE/gazebo && \
