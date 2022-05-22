@@ -58,10 +58,14 @@ else:
 for threshold_div in range(1, 6):
   # Use marching cubes to obtain the surface mesh of these ellipsoids
   vertices, faces, _, values = measure.marching_cubes(plume_base, THRESHOLD / threshold_div)
-  cube = mesh.Mesh(np.zeros(faces.shape[0], dtype=mesh.Mesh.dtype))
+  cube = mesh.Mesh(np.zeros(2 * faces.shape[0], dtype=mesh.Mesh.dtype))
   for i, f in enumerate(faces):
     for j in range(3):
       cube.vectors[i][j] = vertices[f[j], :]
+  for i, f in enumerate(faces):
+    for j in range(3):
+      cube.vectors[i + len(faces)][j] = vertices[f[2-j], :]
+
   stl_filename = '/tmp/plume' + str(threshold_div) + '.stl'
   cube.save(stl_filename)
   plume_co2_avg = sum(values) / len(values)
